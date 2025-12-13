@@ -1,44 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Study Vocab</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Study Vocabulary</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Landing Section -->
-  <section id="landing">
-    <h1>Welcome to Study Vocab</h1>
-    <p>Practice words and test yourself with interactive flashcards and quizzes!</p>
-    <nav>
-      <a href="#flashcards" class="nav-btn">Flashcards</a>
-      <a href="#quiz" class="nav-btn">Quiz</a>
-    </nav>
-  </section>
 
-  <!-- Flashcards Section -->
-  <section id="flashcards">
-    <h2>Flashcards</h2>
-    <div class="flashcard-container">
-      <div class="flashcard" id="flashcard">
-        <div class="flashcard-face flashcard-front">
-          <h3 id="word">Parcel</h3>
-        </div>
-        <div class="flashcard-face flashcard-back">
-          <p><strong>Pronunciation:</strong> per-sell</p>
-          <p><strong>Definition:</strong> a package</p>
-          <p><strong>Example:</strong> I received a parcel today.</p>
-        </div>
-      </div>
+  <section class="home">
+    <h1>Study Vocabulary</h1>
+    <p>Practice words with flashcards or test yourself with quizzes.</p>
+
+    <div class="options">
+      <a href="flashcards.html" class="option-card">
+        📘 Flashcards
+      </a>
+
+      <a href="quiz.html" class="option-card">
+        🧠 Quiz
+      </a>
     </div>
   </section>
 
-  <!-- Quiz Section -->
-  <section id="quiz">
-    <h2>Quiz</h2>
-    <p>Coming soon: select number of questions and test yourself!</p>
-  </section>
-
-  <script src="script.js"></script>
 </body>
 </html>
