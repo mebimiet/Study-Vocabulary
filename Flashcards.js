@@ -1,45 +1,37 @@
 const cards = [
-  {
-    word: "Eloquent",
-    pronunciation: "/ˈeləkwənt/",
-    meaning: "Fluent and persuasive in speaking.",
-    sentence: "He delivered an eloquent argument."
-  },
-  {
-    word: "Astute",
-    pronunciation: "/əˈstjuːt/",
-    meaning: "Having sharp judgment.",
-    sentence: "She made an astute observation."
-  }
+  { word: "Eloquent", pronunciation: "/ˈeləkwənt/", meaning: "Fluent and persuasive in speaking.", sentence: "He delivered an eloquent speech." },
+  { word: "Astute", pronunciation: "/əˈstjuːt/", meaning: "Having sharp judgment.", sentence: "She made an astute observation." },
+  { word: "Benevolent", pronunciation: "/bəˈnevələnt/", meaning: "Kind and generous.", sentence: "A benevolent donor gave money to the school." }
 ];
 
 let index = 0;
 const flashcard = document.getElementById("flashcard");
-const word = document.getElementById("word");
-const definition = document.getElementById("definition");
+const wordEl = document.getElementById("word");
+const definitionEl = document.getElementById("definition");
 
-function render() {
-  word.textContent = cards[index].word;
-  definition.innerHTML = `<strong>${cards[index].pronunciation}</strong><br><br>
-    ${cards[index].meaning}<br><br>
-    <em>${cards[index].sentence}</em>`;
+function renderCard() {
+  const card = cards[index];
+  wordEl.textContent = card.word;
+  definitionEl.innerHTML = `<strong>${card.pronunciation}</strong><br><br>${card.meaning}<br><br><em>${card.sentence}</em>`;
 }
 
-render();
+renderCard();
 
+// Flip card
 flashcard.addEventListener("click", () => {
   flashcard.classList.toggle("flipped");
 });
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowRight") {
+// Navigate with left/right clicks
+flashcard.addEventListener("click", (e) => {
+  const rect = flashcard.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  if(x > rect.width/2) { // right side click → next
     index = (index + 1) % cards.length;
-    flashcard.classList.remove("flipped");
-    render();
-  }
-  if (e.key === "ArrowLeft") {
+  } else { // left side click → previous
     index = (index - 1 + cards.length) % cards.length;
-    flashcard.classList.remove("flipped");
-    render();
   }
+  flashcard.classList.remove("flipped");
+  renderCard();
 });
+
