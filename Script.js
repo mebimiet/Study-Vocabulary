@@ -1,98 +1,38 @@
-const words = [
-  { word: "Candid", pronunciation: "kan-did", definition: "Truthful and straightforward.", example: "He gave a candid answer to the question." },
-  { word: "Elaborate", pronunciation: "ih-lab-uh-reyt", definition: "To explain in detail.", example: "Please elaborate on your plan." },
-  { word: "Obfuscate", pronunciation: "ob-fuh-skeyt", definition: "To make something unclear or confusing.", example: "The speaker tried to obfuscate the main issue." },
-  { word: "Pulchritude", pronunciation: "pul-kri-tood", definition: "Beauty; physical attractiveness.", example: "The pulchritude of the landscape amazed everyone." },
-  { word: "Sycophant", pronunciation: "si-kuh-fuhnt", definition: "A person who flatters for personal gain.", example: "The manager surrounded himself with sycophants." }
+const flashcard = document.getElementById('flashcard');
+
+let currentIndex = 0;
+const cards = [
+  {word: 'Parcel', pron: 'per-sell', def: 'a package', example: 'I received a parcel today.'},
+  {word: 'Ample', pron: 'am-puhl', def: 'more than enough', example: 'There was ample food.'},
+  {word: 'Benevolent', pron: 'bə-nev-uh-luhnt', def: 'kind, generous', example: 'She was benevolent to the poor.'}
 ];
 
-let currentCardIndex = 0;
-const cardContainer = document.querySelector('.card-container');
-const nextCardBtn = document.getElementById('nextCard');
-
-function showCard(index) {
-  cardContainer.innerHTML = '';
-  const cardData = words[index];
-
-  const card = document.createElement('div');
-  card.classList.add('card');
-
-  const front = document.createElement('div');
-  front.classList.add('front');
-  front.innerHTML = `<h3>${cardData.word}</h3>`;
-
-  const back = document.createElement('div');
-  back.classList.add('back');
+// Update flashcard content
+function updateCard(index) {
+  const front = flashcard.querySelector('.flashcard-front h3');
+  const back = flashcard.querySelector('.flashcard-back');
+  front.textContent = cards[index].word;
   back.innerHTML = `
-    <p><strong>Pronunciation:</strong> ${cardData.pronunciation}</p>
-    <p><strong>Definition:</strong> ${cardData.definition}</p>
-    <p><strong>Example:</strong> ${cardData.example}</p>
+    <p><strong>Pronunciation:</strong> ${cards[index].pron}</p>
+    <p><strong>Definition:</strong> ${cards[index].def}</p>
+    <p><strong>Example:</strong> ${cards[index].example}</p>
   `;
-
-  card.appendChild(front);
-  card.appendChild(back);
-
-  card.addEventListener('click', () => card.classList.toggle('flipped'));
-  cardContainer.appendChild(card);
+  flashcard.classList.remove('flipped');
 }
 
-nextCardBtn.addEventListener('click', () => {
-  currentCardIndex = (currentCardIndex + 1) % words.length;
-  showCard(currentCardIndex);
-});
+updateCard(currentIndex);
 
-showCard(currentCardIndex);
-
-// -------------------
-// Quiz
-// -------------------
-let currentQuizIndex = 0;
-let quizCorrect = 0;
-let quizWrong = 0;
-
-const quizWordEl = document.getElementById('quizWord');
-const options = Array.from(document.getElementsByClassName('optionBtn'));
-const resultEl = document.getElementById('result');
-const correctEl = document.getElementById('correct');
-const wrongEl = document.getElementById('wrong');
-const nextQuizBtn = document.getElementById('nextQuiz');
-
-function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
-
-function showQuiz() {
-  const wordData = words[currentQuizIndex];
-  quizWordEl.textContent = wordData.word;
-
-  let quizOptions = [wordData.definition];
-  const otherDefs = words.filter((w, i) => i !== currentQuizIndex).map(w => w.definition);
-  quizOptions.push(...shuffle(otherDefs).slice(0, 3));
-  quizOptions = shuffle(quizOptions);
-
-  options.forEach((btn, i) => {
-    btn.textContent = quizOptions[i];
-    btn.onclick = () => checkAnswer(btn.textContent, wordData.definition);
-  });
-
-  resultEl.textContent = '';
-}
-
-function checkAnswer(selected, correct) {
-  if (selected === correct) {
-    quizCorrect++;
-    resultEl.textContent = '✅ Correct!';
+// Click flashcard for next/prev based on click side
+flashcard.addEventListener('click', (e) => {
+  const rect = flashcard.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  if (clickX > rect.width / 2) {
+    // Right side → next
+    currentIndex = (currentIndex + 1) % cards.length;
   } else {
-    quizWrong++;
-    resultEl.textContent = `❌ Wrong! Correct: ${correct}`;
+    // Left side → previous
+    currentIndex = (currentIndex - 1 + cards.length) % cards.length;
   }
-  correctEl.textContent = quizCorrect;
-  wrongEl.textContent = quizWrong;
-}
-
-nextQuizBtn.addEventListener('click', () => {
-  currentQuizIndex = (currentQuizIndex + 1) % words.length;
-  showQuiz();
+  updateCard(currentIndex);
+  flashcard.classList.toggle('flipped');
 });
-
-showQuiz();
