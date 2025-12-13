@@ -3,49 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study Vocabulary</title>
+  <title>Study Vocab</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Study Vocabulary</h1>
-    <p>Flip cards to learn words and test yourself with quizzes!</p>
-  </header>
+  <h1>Study Vocab Flashcards & Quiz</h1>
 
-  <main>
-    <!-- Flashcards Section -->
-    <section id="flashcards">
-      <h2>Flashcards</h2>
-      <div class="card-container">
-        <!-- JS will dynamically add cards here -->
-      </div>
-      <button id="nextCard">Next Card</button>
-    </section>
+  <div class="card-container"></div>
+  <button id="nextCard">Next Card</button>
 
-    <hr>
+  <hr>
 
-    <!-- Quiz Section -->
-    <section id="quiz">
-      <h2>Quiz Mode</h2>
-      <p id="quizWord">Word appears here</p>
+  <h2>Quiz</h2>
+  <p id="quizWord"></p>
+  <div class="quiz-options">
+    <button class="optionBtn"></button>
+    <button class="optionBtn"></button>
+    <button class="optionBtn"></button>
+    <button class="optionBtn"></button>
+  </div>
+  <p id="result"></p>
+  <p>Correct: <span id="correct">0</span> | Wrong: <span id="wrong">0</span></p>
+  <button id="nextQuiz">Next Question</button>
 
-      <div id="options">
-        <button class="optionBtn">Option 1</button>
-        <button class="optionBtn">Option 2</button>
-        <button class="optionBtn">Option 3</button>
-        <button class="optionBtn">Option 4</button>
-      </div>
-
-      <p id="result"></p>
-      <p>✅ Correct: <span id="correct">0</span> | ❌ Wrong: <span id="wrong">0</span></p>
-      <button id="nextQuiz">Next Question</button>
-    </section>
-  </main>
-
-  <footer>
-    <p>Built by Lamia Harris • SSAT Vocabulary Practice</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
+
+
