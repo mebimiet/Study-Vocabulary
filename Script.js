@@ -1,52 +1,19 @@
-// =======================
-// VOCABULARY LIST
-// Add more words here whenever you want
-// =======================
 const words = [
-  {
-    word: "Candid",
-    pronunciation: "kan-did",
-    definition: "Truthful and straightforward.",
-    example: "He gave a candid answer to the question."
-  },
-  {
-    word: "Elaborate",
-    pronunciation: "ih-lab-uh-reyt",
-    definition: "To explain in detail.",
-    example: "Please elaborate on your plan."
-  },
-  {
-    word: "Obfuscate",
-    pronunciation: "ob-fuh-skeyt",
-    definition: "To make something unclear or confusing.",
-    example: "The speaker tried to obfuscate the main issue."
-  },
-  {
-    word: "Pulchritude",
-    pronunciation: "pul-kri-tood",
-    definition: "Beauty; physical attractiveness.",
-    example: "The pulchritude of the landscape amazed everyone."
-  },
-  {
-    word: "Sycophant",
-    pronunciation: "si-kuh-fuhnt",
-    definition: "A person who flatters for personal gain.",
-    example: "The manager surrounded himself with sycophants."
-  }
+  { word: "Candid", pronunciation: "kan-did", definition: "Truthful and straightforward.", example: "He gave a candid answer to the question." },
+  { word: "Elaborate", pronunciation: "ih-lab-uh-reyt", definition: "To explain in detail.", example: "Please elaborate on your plan." },
+  { word: "Obfuscate", pronunciation: "ob-fuh-skeyt", definition: "To make something unclear or confusing.", example: "The speaker tried to obfuscate the main issue." },
+  { word: "Pulchritude", pronunciation: "pul-kri-tood", definition: "Beauty; physical attractiveness.", example: "The pulchritude of the landscape amazed everyone." },
+  { word: "Sycophant", pronunciation: "si-kuh-fuhnt", definition: "A person who flatters for personal gain.", example: "The manager surrounded himself with sycophants." }
 ];
 
-// =======================
-// FLASHCARDS
-// =======================
 let currentCardIndex = 0;
-
 const cardContainer = document.querySelector('.card-container');
 const nextCardBtn = document.getElementById('nextCard');
 
 function showCard(index) {
-  cardContainer.innerHTML = ''; // clear previous card
-
+  cardContainer.innerHTML = '';
   const cardData = words[index];
+
   const card = document.createElement('div');
   card.classList.add('card');
 
@@ -65,10 +32,7 @@ function showCard(index) {
   card.appendChild(front);
   card.appendChild(back);
 
-  card.addEventListener('click', () => {
-    card.classList.toggle('flipped');
-  });
-
+  card.addEventListener('click', () => card.classList.toggle('flipped'));
   cardContainer.appendChild(card);
 }
 
@@ -77,12 +41,11 @@ nextCardBtn.addEventListener('click', () => {
   showCard(currentCardIndex);
 });
 
-// Show first card
 showCard(currentCardIndex);
 
-// =======================
-// QUIZ
-// =======================
+// -------------------
+// Quiz
+// -------------------
 let currentQuizIndex = 0;
 let quizCorrect = 0;
 let quizWrong = 0;
@@ -102,7 +65,6 @@ function showQuiz() {
   const wordData = words[currentQuizIndex];
   quizWordEl.textContent = wordData.word;
 
-  // Make options: correct + 3 random others
   let quizOptions = [wordData.definition];
   const otherDefs = words.filter((w, i) => i !== currentQuizIndex).map(w => w.definition);
   quizOptions.push(...shuffle(otherDefs).slice(0, 3));
@@ -133,5 +95,4 @@ nextQuizBtn.addEventListener('click', () => {
   showQuiz();
 });
 
-// Show first quiz
 showQuiz();
