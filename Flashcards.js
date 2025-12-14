@@ -1,82 +1,68 @@
-const flashcards = [
+const flashcard = document.getElementById("flashcard");
+const wordEl = document.getElementById("word");
+const pronunciationEl = document.getElementById("pronunciation");
+const definitionEl = document.getElementById("definition");
+const sentenceEl = document.getElementById("sentence");
+
+const leftZone = document.querySelector(".left-zone");
+const rightZone = document.querySelector(".right-zone");
+
+let currentIndex = 0;
+
+const vocab = [
   {
-    word: "Meticulous",
-    pronunciation: "/məˈtɪkjʊləs/",
-    meaning: "Showing great attention to detail; very careful and precise.",
-    sentence: "She kept meticulous notes for every science experiment."
+    word: "Austere",
+    pronunciation: "/ɔːˈstɪr/",
+    definition: "Severe or strict in manner or appearance.",
+    sentence: "The classroom had an austere atmosphere during the exam."
+  },
+  {
+    word: "Pragmatic",
+    pronunciation: "/præɡˈmætɪk/",
+    definition: "Dealing with things sensibly and realistically.",
+    sentence: "She took a pragmatic approach to solving the issue."
   },
   {
     word: "Ambiguous",
     pronunciation: "/æmˈbɪɡjuəs/",
-    meaning: "Open to more than one interpretation; unclear.",
-    sentence: "His answer was ambiguous and confused everyone."
-  },
-  {
-    word: "Resilient",
-    pronunciation: "/rɪˈzɪlɪənt/",
-    meaning: "Able to recover quickly from difficulties.",
-    sentence: "She remained resilient despite repeated setbacks."
+    definition: "Open to more than one interpretation.",
+    sentence: "His answer was intentionally ambiguous."
   }
 ];
 
-let currentIndex = 0;
-let isFlipped = false;
+function renderCard() {
+  const item = vocab[currentIndex];
 
-const flashcard = document.getElementById("flashcard");
-const front = document.getElementById("card-front");
-const back = document.getElementById("card-back");
+  wordEl.textContent = item.word;
+  pronunciationEl.textContent = item.pronunciation;
+  definitionEl.textContent = item.definition;
+  sentenceEl.textContent = item.sentence;
 
-/* ===== LOAD CARD ===== */
-function loadCard(index) {
-  const card = flashcards[index];
-
-  front.textContent = card.word;
-
-  back.innerHTML = `
-    <div>
-      <strong>Pronunciation</strong><br>
-      ${card.pronunciation}
-      <br><br>
-
-      <strong>Meaning</strong><br>
-      ${card.meaning}
-      <br><br>
-
-      <strong>Sentence</strong><br>
-      ${card.sentence}
-    </div>
-  `;
-
+  // reset flip when switching cards
   flashcard.classList.remove("flipped");
-  isFlipped = false;
 }
 
-/* ===== FLIP CARD ===== */
+/* CARD CLICK → FLIP ONLY */
 flashcard.addEventListener("click", (e) => {
-  const cardWidth = flashcard.offsetWidth;
-  const clickX = e.offsetX;
-
-  // LEFT SIDE → PREVIOUS
-  if (clickX < cardWidth / 2) {
-    currentIndex =
-      (currentIndex - 1 + flashcards.length) % flashcards.length;
-    loadCard(currentIndex);
-    return;
-  }
-
-  // RIGHT SIDE → NEXT
-  if (clickX >= cardWidth / 2) {
-    currentIndex = (currentIndex + 1) % flashcards.length;
-    loadCard(currentIndex);
-    return;
-  }
-});
-
-/* ===== DOUBLE CLICK TO FLIP ===== */
-flashcard.addEventListener("dblclick", () => {
+  e.stopPropagation(); // important: prevents side clicks from triggering
   flashcard.classList.toggle("flipped");
-  isFlipped = !isFlipped;
 });
 
-/* INITIAL LOAD */
-loadCard(currentIndex);
+/* LEFT SIDE → PREVIOUS */
+leftZone.addEventListener("click", () => {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderCard();
+  }
+});
+
+/* RIGHT SIDE → NEXT */
+rightZone.addEventListener("click", () => {
+  if (currentIndex < vocab.length - 1) {
+    currentIndex++;
+    renderCard();
+  }
+});
+
+/* INIT */
+renderCard();
