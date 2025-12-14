@@ -4,8 +4,8 @@ const pronunciationEl = document.getElementById("pronunciation");
 const definitionEl = document.getElementById("definition");
 const sentenceEl = document.getElementById("sentence");
 
-const leftZone = document.querySelector(".left-zone");
-const rightZone = document.querySelector(".right-zone");
+const leftZone = document.getElementById("leftZone");
+const rightZone = document.getElementById("rightZone");
 
 let index = 0;
 
@@ -30,38 +30,50 @@ const vocab = [
   }
 ];
 
-function loadCard() {
+function renderCard() {
   const v = vocab[index];
   wordEl.textContent = v.word;
   pronunciationEl.textContent = v.pronunciation;
   definitionEl.textContent = v.definition;
   sentenceEl.textContent = v.sentence;
 
-  // ALWAYS reset to front
   flashcard.classList.remove("flipped");
 }
 
-// flip ONLY when clicking the card
+/* flip ONLY when clicking the card */
 flashcard.addEventListener("click", (e) => {
   e.stopPropagation();
   flashcard.classList.toggle("flipped");
 });
 
-// previous
+/* invisible left/right click zones */
 leftZone.addEventListener("click", () => {
   if (index > 0) {
     index--;
-    loadCard();
+    renderCard();
   }
 });
 
-// next
 rightZone.addEventListener("click", () => {
   if (index < vocab.length - 1) {
     index++;
-    loadCard();
+    renderCard();
   }
 });
 
-// init
-loadCard();
+/* define click zones without touching CSS */
+leftZone.style.position = "fixed";
+leftZone.style.left = "0";
+leftZone.style.top = "0";
+leftZone.style.width = "25vw";
+leftZone.style.height = "100vh";
+leftZone.style.zIndex = "0";
+
+rightZone.style.position = "fixed";
+rightZone.style.right = "0";
+rightZone.style.top = "0";
+rightZone.style.width = "25vw";
+rightZone.style.height = "100vh";
+rightZone.style.zIndex = "0";
+
+renderCard();
