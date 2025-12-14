@@ -3,34 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <title>Flashcards</title>
-
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-  <!-- HOME BUTTON -->
-  <a href="index.html" class="home-btn">🏠 Home</a>
+  <nav class="top-nav">
+    <a href="index.html">← Home</a>
+  </nav>
 
-  <!-- FLASHCARD -->
-  <div class="flashcard-container">
-    <div class="flashcard" id="flashcard">
-      <div class="front" id="card-front">
-        Word
-      </div>
+  <div class="flashcard-page">
 
-      <div class="back" id="card-back">
-        <!-- Filled by JS -->
+    <!-- LEFT SIDE CLICK AREA -->
+    <div class="side-zone left-zone"></div>
+
+    <!-- FLASHCARD -->
+    <div class="flashcard-wrapper">
+      <div class="flashcard" id="flashcard">
+        <div class="card-face card-front">
+          <h1 id="word">Word</h1>
+        </div>
+
+        <div class="card-face card-back">
+          <p id="pronunciation"></p>
+          <p id="definition"></p>
+          <p id="sentence"></p>
+        </div>
       </div>
     </div>
+
+    <!-- RIGHT SIDE CLICK AREA -->
+    <div class="side-zone right-zone"></div>
+
   </div>
 
-  <!-- JS -->
   <script src="flashcards.js"></script>
-
 </body>
 </html>
