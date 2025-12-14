@@ -7,62 +7,61 @@ const sentenceEl = document.getElementById("sentence");
 const leftZone = document.querySelector(".left-zone");
 const rightZone = document.querySelector(".right-zone");
 
-let currentIndex = 0;
+let index = 0;
 
 const vocab = [
   {
     word: "Austere",
     pronunciation: "/ɔːˈstɪr/",
     definition: "Severe or strict in manner or appearance.",
-    sentence: "The classroom had an austere atmosphere during the exam."
+    sentence: "The room had an austere atmosphere."
   },
   {
     word: "Pragmatic",
     pronunciation: "/præɡˈmætɪk/",
-    definition: "Dealing with things sensibly and realistically.",
-    sentence: "She took a pragmatic approach to solving the issue."
+    definition: "Practical and realistic.",
+    sentence: "She took a pragmatic approach."
   },
   {
     word: "Ambiguous",
     pronunciation: "/æmˈbɪɡjuəs/",
-    definition: "Open to more than one interpretation.",
-    sentence: "His answer was intentionally ambiguous."
+    definition: "Open to more than one meaning.",
+    sentence: "His reply was ambiguous."
   }
 ];
 
-function renderCard() {
-  const item = vocab[currentIndex];
+function loadCard() {
+  const v = vocab[index];
+  wordEl.textContent = v.word;
+  pronunciationEl.textContent = v.pronunciation;
+  definitionEl.textContent = v.definition;
+  sentenceEl.textContent = v.sentence;
 
-  wordEl.textContent = item.word;
-  pronunciationEl.textContent = item.pronunciation;
-  definitionEl.textContent = item.definition;
-  sentenceEl.textContent = item.sentence;
-
-  // reset flip when switching cards
+  // ALWAYS reset to front
   flashcard.classList.remove("flipped");
 }
 
-/* CARD CLICK → FLIP ONLY */
+// flip ONLY when clicking the card
 flashcard.addEventListener("click", (e) => {
-  e.stopPropagation(); // important: prevents side clicks from triggering
+  e.stopPropagation();
   flashcard.classList.toggle("flipped");
 });
 
-/* LEFT SIDE → PREVIOUS */
+// previous
 leftZone.addEventListener("click", () => {
-  if (currentIndex > 0) {
-    currentIndex--;
-    renderCard();
+  if (index > 0) {
+    index--;
+    loadCard();
   }
 });
 
-/* RIGHT SIDE → NEXT */
+// next
 rightZone.addEventListener("click", () => {
-  if (currentIndex < vocab.length - 1) {
-    currentIndex++;
-    renderCard();
+  if (index < vocab.length - 1) {
+    index++;
+    loadCard();
   }
 });
 
-/* INIT */
-renderCard();
+// init
+loadCard();
