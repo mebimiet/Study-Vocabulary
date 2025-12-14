@@ -1,37 +1,82 @@
-const cards = [
-  { word: "Eloquent", pronunciation: "/ˈeləkwənt/", meaning: "Fluent and persuasive in speaking.", sentence: "He delivered an eloquent speech." },
-  { word: "Astute", pronunciation: "/əˈstjuːt/", meaning: "Having sharp judgment.", sentence: "She made an astute observation." },
-  { word: "Benevolent", pronunciation: "/bəˈnevələnt/", meaning: "Kind and generous.", sentence: "A benevolent donor gave money to the school." }
+const flashcards = [
+  {
+    word: "Meticulous",
+    pronunciation: "/məˈtɪkjʊləs/",
+    meaning: "Showing great attention to detail; very careful and precise.",
+    sentence: "She kept meticulous notes for every science experiment."
+  },
+  {
+    word: "Ambiguous",
+    pronunciation: "/æmˈbɪɡjuəs/",
+    meaning: "Open to more than one interpretation; unclear.",
+    sentence: "His answer was ambiguous and confused everyone."
+  },
+  {
+    word: "Resilient",
+    pronunciation: "/rɪˈzɪlɪənt/",
+    meaning: "Able to recover quickly from difficulties.",
+    sentence: "She remained resilient despite repeated setbacks."
+  }
 ];
 
-let index = 0;
-const flashcard = document.getElementById("flashcard");
-const wordEl = document.getElementById("word");
-const definitionEl = document.getElementById("definition");
+let currentIndex = 0;
+let isFlipped = false;
 
-function renderCard() {
-  const card = cards[index];
-  wordEl.textContent = card.word;
-  definitionEl.innerHTML = `<strong>${card.pronunciation}</strong><br><br>${card.meaning}<br><br><em>${card.sentence}</em>`;
+const flashcard = document.getElementById("flashcard");
+const front = document.getElementById("card-front");
+const back = document.getElementById("card-back");
+
+/* ===== LOAD CARD ===== */
+function loadCard(index) {
+  const card = flashcards[index];
+
+  front.textContent = card.word;
+
+  back.innerHTML = `
+    <div>
+      <strong>Pronunciation</strong><br>
+      ${card.pronunciation}
+      <br><br>
+
+      <strong>Meaning</strong><br>
+      ${card.meaning}
+      <br><br>
+
+      <strong>Sentence</strong><br>
+      ${card.sentence}
+    </div>
+  `;
+
+  flashcard.classList.remove("flipped");
+  isFlipped = false;
 }
 
-renderCard();
-
-// Flip card
-flashcard.addEventListener("click", () => {
-  flashcard.classList.toggle("flipped");
-});
-
-// Navigate with left/right clicks
+/* ===== FLIP CARD ===== */
 flashcard.addEventListener("click", (e) => {
-  const rect = flashcard.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  if(x > rect.width/2) { // right side click → next
-    index = (index + 1) % cards.length;
-  } else { // left side click → previous
-    index = (index - 1 + cards.length) % cards.length;
+  const cardWidth = flashcard.offsetWidth;
+  const clickX = e.offsetX;
+
+  // LEFT SIDE → PREVIOUS
+  if (clickX < cardWidth / 2) {
+    currentIndex =
+      (currentIndex - 1 + flashcards.length) % flashcards.length;
+    loadCard(currentIndex);
+    return;
   }
-  flashcard.classList.remove("flipped");
-  renderCard();
+
+  // RIGHT SIDE → NEXT
+  if (clickX >= cardWidth / 2) {
+    currentIndex = (currentIndex + 1) % flashcards.length;
+    loadCard(currentIndex);
+    return;
+  }
 });
 
+/* ===== DOUBLE CLICK TO FLIP ===== */
+flashcard.addEventListener("dblclick", () => {
+  flashcard.classList.toggle("flipped");
+  isFlipped = !isFlipped;
+});
+
+/* INITIAL LOAD */
+loadCard(currentIndex);
